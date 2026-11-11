@@ -1,25 +1,28 @@
 const express = require('express');
 const cors = require('cors');
+const path = require('path'); // Módulo nativo de Node.js
 require('dotenv').config();
 
-const apiRoutes = require('./routes/api.routes')
+const apiRoutes = require('./routes/api.routes');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// Middlewares globales
-app.use(cors()); // Permite peticiones desde Angular (localhost:4200)
-app.use(express.json()); // Permite a Express entender JSON en el body
+app.use(cors());
+app.use(express.json());
 
-//prefijo /api para todas las rutas
-app.use('/api',apiRoutes);
+// 1. Servir las rutas de la API de Express
+app.use('/api', apiRoutes);
 
-// Ruta de prueba
-app.get('/', (req, res) => {
-  res.json({ mensaje: 'Servidor de Respawn Keys funcionando correctamente' });
+// 2. Servir los archivos estáticos de la app de Angular compilada
+// Ajusta la ruta relativa para apuntar a la carpeta dist de tu frontend
+app.use(express.static(path.join(__dirname, '../../Respawn_Keys/dist/respawn-keys/browser')));
+
+// 3. Cualquier otra ruta que no sea /api entregará el index.html de Angular (Single Page Application)
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, '../../Respawn_Keys/dist/respawn-keys/browser/index.html'));
 });
 
-// Arrancar servidor
 app.listen(PORT, () => {
-  console.log(`Servidor Express corriendo en http://localhost:${PORT}`);
+  console.log(`Servidor de Respawn Keys corriendo en http://localhost:${PORT}`);
 });
