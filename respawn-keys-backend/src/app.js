@@ -13,12 +13,14 @@ app.use(express.json());
 
 app.use('/api', apiRoutes);
 
-app.use(express.static(path.join(__dirname, '../../Respawn_Keys/dist/respawn-keys/browser')));
+const angularDistPath = path.join(__dirname, '../dist/respawn-keys/browser');
+app.use(express.static(angularDistPath));
 
 app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, '../../Respawn_Keys/dist/respawn-keys/browser/index.html'));
+  res.sendFile(path.join(angularDistPath, 'index.html'));
 });
 
 app.listen(PORT, () => {
   console.log(`Servidor de Respawn Keys corriendo en http://localhost:${PORT}`);
 });
+
