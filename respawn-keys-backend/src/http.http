@@ -1,0 +1,37 @@
+### 1. Probar que el servidor responde
+GET http://localhost:3000/
+
+### 2. Consultar catálogo de juegos (Público)
+GET http://localhost:3000/api/juegos
+
+### 3. Autenticarse para obtener el JWT Token
+POST http://localhost:3000/api/login
+Content-Type: application/json
+
+{
+  "email": "admin@respawnkeys.com",
+  "password": "123"
+}
+
+### 4. Crear un nuevo juego SIN token (Debe responder 401 Unauthorized)
+POST http://localhost:3000/api/juegos
+Content-Type: application/json
+
+{
+  "titulo": "Elden Ring",
+  "precio": 49.99,
+  "plataforma": "PC",
+  "stock": 10
+}
+
+### 5. Crear juego CON token (Copia el token del paso 3 y pégalo abajo)
+POST http://localhost:3000/api/juegos
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEwMSIsImVtYWlsIjoiYWRtaW5AcmVzcGF3bmtleXMuY29tIiwicm9sIjoiYWRtaW4iLCJpYXQiOjE3OTA4MDUzOTcsImV4cCI6MTc5MDgzNDE5N30.aFfUeC2a15E9Dt8lV6hZ4cIX7A2_POFOFxtrDOka_Pg
+Content-Type: application/json
+
+{
+  "titulo": "Elden Ring",
+  "precio": 49.99,
+  "plataforma": "PC",
+  "stock": 10
+}
